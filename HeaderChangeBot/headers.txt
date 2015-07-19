@@ -1,3 +1,0 @@
-0800	header1.jpg
-1200	header2.jpg
-1800	header3.jpg
