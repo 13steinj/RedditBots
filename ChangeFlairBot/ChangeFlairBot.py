@@ -15,16 +15,18 @@ USERAGENT = ""
 SUBREDDIT = ""
 
 # The old and new flair text and css class. Set to None to use a wildcard.
+# Setting the flairs via search will only work if OLD_FLAIR_TEXT is not set to None.
 OLD_FLAIR_TEXT = ""
 OLD_FLAIR_CSS = ""
 NEW_FLAIR_TEXT = ""
 NEW_FLAIR_CSS = ""
-FLAIR_QUERY = "flair:'{0}'".format(OLD_FLAIR_TEXT)
-
-# Set to True if you only want to see how many posts would be altered
+# Set to True if you only want to see how many posts would be altered. No flairs will be altered with this set to True.
 ONLY_TEST = False
 
 # ### END USER CONFIGURATION ### #
+
+# The Query to be used when setting the flairs via search.
+FLAIR_QUERY = "flair:'{0}'".format(OLD_FLAIR_TEXT)
 
 try:
 	# A file containing infos for testing.
@@ -42,7 +44,7 @@ def run_bot():
 	
 	sub = r.get_subreddit(SUBREDDIT)
 	
-	print("Start bot for subreddit", SUBREDDIT)
+	print("Starting bot for /r/{0}".format(SUBREDDIT))
 	print("Will replace flairs with a text of \"{0}\" and a class of \"{1}\" to have a text of \"{2}\" and a class of \"{3}\" via the search page".format(OLD_FLAIR_TEXT, OLD_FLAIR_CSS, NEW_FLAIR_TEXT, NEW_FLAIR_CSS))
 	
 	try:
