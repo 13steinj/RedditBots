@@ -1,2 +1,3 @@
 # Change Flair Bot
-A bot to change all link flairs from an old flair to a new flair in a subreddit.
+A bot to change all link flairs from an old flair to a new flair in a subreddit.  
+Edited from /u/SmBe19, assistance from /u/GoldenSights
