@@ -25,9 +25,6 @@ ONLY_TEST = False
 
 # ### END USER CONFIGURATION ### #
 
-# The Query to be used when setting the flairs via search.
-FLAIR_QUERY = "flair:'{0}'".format(OLD_FLAIR_TEXT)
-
 try:
 	# A file containing infos for testing.
 	import bot
@@ -35,57 +32,81 @@ try:
 	SUBREDDIT = bot.subreddit
 except ImportError:
 	pass
-
-# main procedure
-def run_bot():
+def setting_variables():
 	r = praw.Reddit(USERAGENT)
 	o = OAuth2Util.OAuth2Util(r)
-	o.refresh()
-	
 	sub = r.get_subreddit(SUBREDDIT)
-	
-	print("Starting bot for /r/{0}".format(SUBREDDIT))
-	print("Will replace flairs with a text of \"{0}\" and a class of \"{1}\" to have a text of \"{2}\" and a class of \"{3}\" via the search page".format(OLD_FLAIR_TEXT, OLD_FLAIR_CSS, NEW_FLAIR_TEXT, NEW_FLAIR_CSS))
-	
-	try:
-		last_element = None
-		posts = sub.search(FLAIR_QUERY, subreddit=SUBREDDIT, sort="relevance", syntax=None, period=None, limit=100)
-		found_new_post = True
-		changed = 0
-		active_page = 0
-		while found_new_post:
-			active_page += 1
-			print("Search Page", active_page)
-			found_new_post = False
-			
-			for post in posts:
-				found_new_post = True
-				
+	FLAIR_QUERY = "flair:'{0}'".format(OLD_FLAIR_TEXT)
+# hot procedure
+def run_hot_flair_setting():		
+	print("Will now replace link flairs with a text of \"{0}\" and a class of \"{1}\" to have a text of \"{2}\" and a class of \"{3}\" via the \"Hot\" page".format(OLD_FLAIR_TEXT, OLD_FLAIR_CSS, NEW_FLAIR_TEXT, NEW_FLAIR_CSS)	try:
+		last_hot_element = None
+		hot_posts = sub.get_hot(limit=100)
+		found_new_hot_post = True
+		hot_changed = 0
+		active_hot_page = 0
+		while found_new_hot_post:
+			active_hot_page += 1
+			print("Searching the", active_hot_page, "Hot Page")
+			found_new_hot_post = False
+			for post in hot_posts:
+				found_new_hot_post = True
 				if (post.link_flair_css_class == OLD_FLAIR_CSS or not OLD_FLAIR_CSS) and (post.link_flair_text == OLD_FLAIR_TEXT or not OLD_FLAIR_TEXT):
 					if ONLY_TEST:
-						print ("would change flair")
+						print ("Flair would be changed")
 					else:
-						print("change flair")
-						post.set_flair(NEW_FLAIR_TEXT, NEW_FLAIR_CSS)
-						
-					changed += 1
-				last_element = post.name
-			posts = sub.search(FLAIR_QUERY, subreddit=SUBREDDIT, sort="relevance", syntax=None, period=None, limit=100, params={"after" : last_element})
-			
-		print("changed", changed, "posts")
-		
+						print("Changing flair")
+						post.set_flair(NEW_FLAIR_TEXT, NEW_FLAIR_CSS)						hot_changed += 1
+				last_hot_element = post.name
+			hot_posts = sub.get_hot(limit=100, params={"after" : last_element})
+		print("Changed", hot_changed, "posts via the \"Hot\" queue")
 	except KeyboardInterrupt:
 		pass
 	except Exception as e:
 		print("Exception", e)
-	
-	
+# new procedure
+def run_new_flair_setting():		
+	print("Will now replace link flairs with a text of \"{0}\" and a class of \"{1}\" to have a text of \"{2}\" and a class of \"{3}\" via the \"New\" page".format(OLD_FLAIR_TEXT, OLD_FLAIR_CSS, NEW_FLAIR_TEXT, NEW_FLAIR_CSS)	try:
+		last_new_element = None
+		new_posts = sub.get_new(limit=100)
+		found_new_new_post = True
+		new_changed = 0
+		active_new_page = 0
+		while found_new_new_post:
+			active_new_page += 1
+			print("Searching the", active_new_page, "New Page")
+			found_new_new_post = False
+			for post in new_posts:
+				found_new_new_post = True
+				if (post.link_flair_css_class == OLD_FLAIR_CSS or not OLD_FLAIR_CSS) and (post.link_flair_text == OLD_FLAIR_TEXT or not OLD_FLAIR_TEXT):
+					if ONLY_TEST:
+						print ("Flair would be changed")
+					else:
+						print("Changing flair")
+						post.set_flair(NEW_FLAIR_TEXT, NEW_FLAIR_CSS)						new_changed += 1
+				last_new_element = post.name
+			new_posts = sub.get_new(limit=100, params={"after" : last_element})
+		print("Changed", new_changed, "posts via the \"New\" queue")
+	except KeyboardInterrupt:
+		pass
+	except Exception as e:
+		print("Exception", e)
+#
+# MAIN EXECUTION
+#
+def run_full_bot():
+	setting_variables()
+	o.refresh()
+	print("Starting link flair bot for /r/{0}".format(SUBREDDIT))
+	run_hot_flair_setting()
+	run_new_flair_setting()
+# FULL EXECUTION
 if __name__ == "__main__":
 	if not USERAGENT:
-		print("missing useragent")
+		print("Missing Useragent")
 	elif not SUBREDDIT:
-		print("missing subreddit")
+		print("Missing Subreddit")
 	elif not OLD_FLAIR_CSS and not OLD_FLAIR_TEXT:
-		print("old flair not set")
+		print("Old flair not set")
 	else:
-		run_bot()
+		run_full_bot()
