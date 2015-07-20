@@ -15,12 +15,11 @@ USERAGENT = ""
 SUBREDDIT = ""
 
 # The old and new flair text and css class. Set to None to use a wildcard.
-# On lines 50 and 71 equivocate "flair:text" to "flair:OLD_FLAIR_TEXT",
-# e.g. if OLD_FLAIR_TEXT = "Image", on line 51 and 72 "flair:text" would be "flair:Image"
 OLD_FLAIR_TEXT = ""
 OLD_FLAIR_CSS = ""
 NEW_FLAIR_TEXT = ""
 NEW_FLAIR_CSS = ""
+FLAIR_QUERY = "flair:'{0}'".format(OLD_FLAIR_TEXT)
 
 # Set to True if you only want to see how many posts would be altered
 ONLY_TEST = False
@@ -48,7 +47,7 @@ def run_bot():
 	
 	try:
 		last_element = None
-		posts = sub.search("flair:text", subreddit=SUBREDDIT, sort="relevance", syntax=None, period=None, limit=100)
+		posts = sub.search(FLAIR_QUERY, subreddit=SUBREDDIT, sort="relevance", syntax=None, period=None, limit=100)
 		found_new_post = True
 		changed = 0
 		active_page = 0
@@ -69,7 +68,7 @@ def run_bot():
 						
 					changed += 1
 				last_element = post.name
-			posts = sub.search("flair:text", subreddit=SUBREDDIT, sort="relevance", syntax=None, period=None, limit=100, params={"after" : last_element})
+			posts = sub.search(FLAIR_QUERY, subreddit=SUBREDDIT, sort="relevance", syntax=None, period=None, limit=100, params={"after" : last_element})
 			
 		print("changed", changed, "posts")
 		
