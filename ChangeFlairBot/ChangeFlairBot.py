@@ -55,12 +55,16 @@ def run_hot_flair_setting():
 				if (post.link_flair_css_class == OLD_FLAIR_CSS or not OLD_FLAIR_CSS) and (post.link_flair_text == OLD_FLAIR_TEXT or not OLD_FLAIR_TEXT):
 					if ONLY_TEST:
 						print ("Flair would be changed")
+						hot_changed += 1
 					else:
 						print("Changing flair")
 						post.set_flair(NEW_FLAIR_TEXT, NEW_FLAIR_CSS)						hot_changed += 1
 				last_hot_element = post.name
 			hot_posts = sub.get_hot(limit=100, params={"after" : last_element})
-		print("Changed", hot_changed, "posts via the \"Hot\" queue")
+		if ONLY_TEST:
+			print(hot_changed, "posts would have been changed via the \"Hot\" queue")
+		else:
+			print("Changed", hot_changed, "posts via the \"Hot\" queue")
 	except KeyboardInterrupt:
 		pass
 	except Exception as e:
@@ -83,25 +87,62 @@ def run_new_flair_setting():
 				if (post.link_flair_css_class == OLD_FLAIR_CSS or not OLD_FLAIR_CSS) and (post.link_flair_text == OLD_FLAIR_TEXT or not OLD_FLAIR_TEXT):
 					if ONLY_TEST:
 						print ("Flair would be changed")
+						new_changed += 1
 					else:
 						print("Changing flair")
 						post.set_flair(NEW_FLAIR_TEXT, NEW_FLAIR_CSS)						new_changed += 1
 				last_new_element = post.name
 			new_posts = sub.get_new(limit=100, params={"after" : last_element})
-		print("Changed", new_changed, "posts via the \"New\" queue")
+		if ONLY_TEST:
+			print(new_changed, "posts would have been changed via the \"New\" queue")
+		else:
+			print("Changed", new_changed, "posts via the \"New\" queue")
+	except KeyboardInterrupt:
+		pass
+	except Exception as e:
+		print("Exception", e)
+# rising procedure
+def run_rising_flair_setting():		
+	print("Will now replace link flairs with a text of \"{0}\" and a class of \"{1}\" to have a text of \"{2}\" and a class of \"{3}\" via the \"Rising\" page".format(OLD_FLAIR_TEXT, OLD_FLAIR_CSS, NEW_FLAIR_TEXT, NEW_FLAIR_CSS)
+	try:
+		last_rising_element = None
+		rising_posts = sub.get_rising(limit=100)
+		found_new_rising_post = True
+		rising_changed = 0
+		active_rising_page = 0
+		while found_new_rising_post:
+			active_rising_page += 1
+			print("Searching the", active_rising_page, "New Page")
+			found_new_rising_post = False
+			for post in new_posts:
+				found_new_rising_post = True
+				if (post.link_flair_css_class == OLD_FLAIR_CSS or not OLD_FLAIR_CSS) and (post.link_flair_text == OLD_FLAIR_TEXT or not OLD_FLAIR_TEXT):
+					if ONLY_TEST:
+						print ("Flair would be changed")
+						rising_changed += 1
+					else:
+						print("Changing flair")
+						post.set_flair(NEW_FLAIR_TEXT, NEW_FLAIR_CSS)						rising_changed += 1
+				last_new_element = post.name
+			new_posts = sub.get_rising(limit=100, params={"after" : last_element})
+		if ONLY_TEST:
+			print(rising_changed, "posts would have been changed via the \"Rising\" queue")
+		else:
+			print("Changed", rising_changed, "posts via the \"Rising\" queue")
 	except KeyboardInterrupt:
 		pass
 	except Exception as e:
 		print("Exception", e)
 #
-# MAIN EXECUTION
+# EXECUTION GROUPING
 #
-def run_full_bot():
+def run_full_script():
 	setting_variables()
 	o.refresh()
 	print("Starting link flair bot for /r/{0}".format(SUBREDDIT))
 	run_hot_flair_setting()
 	run_new_flair_setting()
+	run_rising_flair_setting()
 # FULL EXECUTION
 if __name__ == "__main__":
 	if not USERAGENT:
@@ -111,4 +152,4 @@ if __name__ == "__main__":
 	elif not OLD_FLAIR_CSS and not OLD_FLAIR_TEXT:
 		print("Old flair not set")
 	else:
-		run_full_bot()
+		run_full_script()
