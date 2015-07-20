@@ -1,6 +1,6 @@
 # This file is part of PRAW.
 #
-# Replace this file with PRAW's __init__.py file before starting the script
+# Replace this file with PRAW's _init__.py file before starting the script
 # Lines modified are as follows:
 # Lines 3 to 9 are injected comments explaining the changes, as such
 # Original Line 1132 is moved to Line 1139
