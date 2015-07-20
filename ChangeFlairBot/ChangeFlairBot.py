@@ -39,7 +39,8 @@ def setting_variables():
 	FLAIR_QUERY = "flair:'{0}'".format(OLD_FLAIR_TEXT)
 # hot procedure
 def run_hot_flair_setting():		
-	print("Will now replace link flairs with a text of \"{0}\" and a class of \"{1}\" to have a text of \"{2}\" and a class of \"{3}\" via the \"Hot\" page".format(OLD_FLAIR_TEXT, OLD_FLAIR_CSS, NEW_FLAIR_TEXT, NEW_FLAIR_CSS)	try:
+	print("Will now replace link flairs with a text of \"{0}\" and a class of \"{1}\" to have a text of \"{2}\" and a class of \"{3}\" via the \"Hot\" page".format(OLD_FLAIR_TEXT, OLD_FLAIR_CSS, NEW_FLAIR_TEXT, NEW_FLAIR_CSS)
+	try:
 		last_hot_element = None
 		hot_posts = sub.get_hot(limit=100)
 		found_new_hot_post = True
@@ -66,7 +67,8 @@ def run_hot_flair_setting():
 		print("Exception", e)
 # new procedure
 def run_new_flair_setting():		
-	print("Will now replace link flairs with a text of \"{0}\" and a class of \"{1}\" to have a text of \"{2}\" and a class of \"{3}\" via the \"New\" page".format(OLD_FLAIR_TEXT, OLD_FLAIR_CSS, NEW_FLAIR_TEXT, NEW_FLAIR_CSS)	try:
+	print("Will now replace link flairs with a text of \"{0}\" and a class of \"{1}\" to have a text of \"{2}\" and a class of \"{3}\" via the \"New\" page".format(OLD_FLAIR_TEXT, OLD_FLAIR_CSS, NEW_FLAIR_TEXT, NEW_FLAIR_CSS)
+	try:
 		last_new_element = None
 		new_posts = sub.get_new(limit=100)
 		found_new_new_post = True
