@@ -38,19 +38,35 @@ elif (sys.version_info >= (3, 0, 0)):
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-print("Logging started. You will be able to view an indepth log either when the script finishes, or when")
-LogFile = open("ChangeFlairBot.log", "a+")
-MdLogFile = open("ChangeFlairBot.log.md", "a+")
 
-# ### PRELIMINARY PREREQUISITE CHECK AND INSTALLATION ### #
+print("Logging started. You will be able to view an indepth log either when the script finishes,\nor when you choose to later on by opening either the \"ChangeFlairBot.log\" or \"ChangeFlairBot.log.md\" files.")
+
+def PrintLog(Statement):
+    print(Statement)
+    StatementLog = Statement + "\n"
+    LogFile.write(StatementLog)
+    MdLogFile.write(StatementLog)
+
+LogFile = open("ChangeFlairBot.log", "r")
+MdLogFile = open("ChangeFlairBot.log.md", "r")
+
+# ### PRELIMINARY PREREQUISITE PACKAGE CHECK, INSTALLATION, AND UPGRADE ### #
 
 packages = sorted(["%s" % (i.key) for i in pip.get_installed_distributions()])
 package_versions = sorted(["%s==%s" % (i.key, i.version) for i in pip.get_installed_distributions()])
 
 if ((("PRAW has been installed." not in LogFile.read()) or ("PRAW has been installed." not in MdLogFile.read())) or (("PRAW has had an attempt to have been updated." not in LogFile.read()) or ("PRAW has had an attempt to have been updated." not in MdLogFile.read()))):
+    LogFile.close()
+    MdLogFile.close()
+    LogFile = open("ChangeFlairBot.log", "a")
+    MdLogFile = open("ChangeFlairBot.log.md", "a")
     print("Checking if prerequisite packages are installed...")
+    LogFile.write("Checking if prerequisite packages are installed...\n")
+    MdLogFile.write("Checking if prerequisite packages are installed...\n")
     if ('praw' not in packages):
-        print("You do not have the necessarry prerequisite PRAW. Will install in two seconds")
+        print("You do not have the necessarry prerequisite PRAW. Will install in two seconds.")
+        LogFile.write("You do not have the necessarry prerequisite PRAW. Will install in two seconds.\n")
+        MdLogFile.write("You do not have the necessarry prerequisite PRAW. Will install in two seconds.\n")
         time.sleep(2)
         pip.main(['install', 'praw'])
         print("PRAW has been installed.")
@@ -60,6 +76,8 @@ if ((("PRAW has been installed." not in LogFile.read()) or ("PRAW has been insta
         print("You have the necessarry prerequisite PRAW.")
         print("However, it may not be the latest version. An update will be attempted in two seconds.")
         print("If you recieve an output that the requirement is already up-to-date,\nignore it and let the script continue as normal.")
+        LogFile.write("You have the necessarry prerequisite PRAW.")
+        MdLogFile.write("You have the necessarry prerequisite PRAW.")
         time.sleep(2)
         pip.main(['install', 'praw', '--upgrade'])
         print("PRAW has had an attempt to have been updated.")
