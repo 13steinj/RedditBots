@@ -10,11 +10,11 @@ import pip
 if (sys.version_info < (3, 0, 0)):
     if (sys.version_info < (2, 6, 0)):
         try:
-                print "You are using Python ", platform.python_version()
-                print "This version is incompatible with the script."
-                print "You must use Python 3.0.0 or higher.\nPython 3.4.3 is recommended."
-                print "The script shall now close."
-                sys.exit()
+            print "You are using Python ", platform.python_version()
+            print "This version is incompatible with the script."
+            print "You must use Python 3.0.0 or higher.\nPython 3.4.3 is recommended."
+            print "The script shall now close."
+            sys.exit()
         except SyntaxError:
             pass
     else:
@@ -26,8 +26,8 @@ if (sys.version_info < (3, 0, 0)):
 elif (sys.version_info >= (3, 0, 0)):
     print("You are using Python ", platform.python_version())
     print("This version is compatible with the script.")
-    if (sys.version_info != (3, 4, 3)):
-        print("Python 3.4.3 is recommended.")
+    if (sys.version_info < (3, 4, 3)):
+        print("Python 3.4.3 or higher is recommended.")
         print("If you would like exit the script now to change the python version you are using, do so now.\nOtherwise please wait 2 seconds.")
         time.sleep(2)
     else:
@@ -39,8 +39,8 @@ elif (sys.version_info >= (3, 0, 0)):
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 print("Logging started. You will be able to view an indepth log either when the script finishes, or when")
-LogFile = open("ChangeFlairBot.log", "a")
-MdLogFile = open("ChangeFlairBot.log.md", "a")
+LogFile = open("ChangeFlairBot.log", "a+")
+MdLogFile = open("ChangeFlairBot.log.md", "a+")
 
 # ### PRELIMINARY PREREQUISITE CHECK AND INSTALLATION ### #
 
