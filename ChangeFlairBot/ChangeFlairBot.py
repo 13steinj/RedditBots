@@ -8,23 +8,15 @@ import sys, os, time, platform
 import pip
 
 if (sys.version_info < (3, 0, 0)):
-    if (sys.version_info < (2, 6, 0)):
-        try:
-            print "You are using Python ", platform.python_version()
-            print "This version is incompatible with the script."
-            print "You must use Python 3.0.0 or higher.\nPython 3.4.3 is recommended."
-            print "The script shall now close."
-            sys.exit()
-        except SyntaxError:
-            pass
-    else:
-        print("You are using Python ", platform.python_version())
-        print("This version is incompatible with the script.")
-        print("You must use Python 3.0.0 or higher.\nPython 3.4.3 is recommended.")
-        print("The script shall now close.")
-        sys.exit()
+    pythonversion = "You are using Python " + platform.python_version()
+    print(pythonversion)
+    print("This version is incompatible with the script.")
+    print("You must use Python 3.0.0 or higher.\nPython 3.4.3 or higher is recommended.")
+    print("The script shall now close.")
+    sys.exit()
 elif (sys.version_info >= (3, 0, 0)):
-    print("You are using Python ", platform.python_version())
+    pythonversion = "You are using Python " + platform.python_version()
+    print(pythonversion)
     print("This version is compatible with the script.")
     if (sys.version_info < (3, 4, 3)):
         print("Python 3.4.3 or higher is recommended.")
@@ -39,8 +31,9 @@ elif (sys.version_info >= (3, 0, 0)):
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 
-print("Logging started. You will be able to view an indepth log either when the script finishes,\nor when you choose to later on by opening either the \"ChangeFlairBot.log\" or \"ChangeFlairBot.log.md\" files.")
+print("Logging started. You will be prompted to view an indepth log when the script finishes,\nand you can gp back to it later on by opening either the \"ChangeFlairBot.log\" or \"ChangeFlairBot.log.md\" files.")
 
+# Log + Print shorthand
 def PrintLog(Statement):
     print(Statement)
     StatementLog = Statement + "\n"
@@ -53,49 +46,39 @@ MdLogFile = open("ChangeFlairBot.log.md", "r")
 # ### PRELIMINARY PREREQUISITE PACKAGE CHECK, INSTALLATION, AND UPGRADE ### #
 
 packages = sorted(["%s" % (i.key) for i in pip.get_installed_distributions()])
-package_versions = sorted(["%s==%s" % (i.key, i.version) for i in pip.get_installed_distributions()])
 
 if ((("PRAW has been installed." not in LogFile.read()) or ("PRAW has been installed." not in MdLogFile.read())) or (("PRAW has had an attempt to have been updated." not in LogFile.read()) or ("PRAW has had an attempt to have been updated." not in MdLogFile.read()))):
     LogFile.close()
     MdLogFile.close()
     LogFile = open("ChangeFlairBot.log", "a")
     MdLogFile = open("ChangeFlairBot.log.md", "a")
-    print("Checking if prerequisite packages are installed...")
-    LogFile.write("Checking if prerequisite packages are installed...\n")
-    MdLogFile.write("Checking if prerequisite packages are installed...\n")
+    PrintLog("Prerequisite packages will now be checked.\nIf a package is not installed, it will be.\nAn attempt will be made to update the package to the latest version.\nChecking if prerequisite packages are installed...")
     if ('praw' not in packages):
-        print("You do not have the necessarry prerequisite PRAW. Will install in two seconds.")
-        LogFile.write("You do not have the necessarry prerequisite PRAW. Will install in two seconds.\n")
-        MdLogFile.write("You do not have the necessarry prerequisite PRAW. Will install in two seconds.\n")
+        PrintLog("You do not have the necessarry prerequisite PRAW. Will install in two seconds.")
         time.sleep(2)
         pip.main(['install', 'praw'])
-        print("PRAW has been installed.")
-        LogFile.write("PRAW has been installed.\n")
-        MdLogFile.write("PRAW has been installed.\n")
+        PrintLog("PRAW has been installed.")
     else:
-        print("You have the necessarry prerequisite PRAW.")
-        print("However, it may not be the latest version. An update will be attempted in two seconds.")
-        print("If you recieve an output that the requirement is already up-to-date,\nignore it and let the script continue as normal.")
-        LogFile.write("You have the necessarry prerequisite PRAW.")
-        MdLogFile.write("You have the necessarry prerequisite PRAW.")
+        PrintLog("You have the necessarry prerequisite PRAW.\nHowever, it may not be the latest version.\nAn update will be attempted in two seconds.\nIf you recieve an output that the requirement is already up-to-date,\nignore it and let the script continue as normal.")
         time.sleep(2)
         pip.main(['install', 'praw', '--upgrade'])
-        print("PRAW has had an attempt to have been updated.")
-        LogFile.write("PRAW has had an attempt to have been updated.\n")
-        MdLogFile.write("PRAW has had an attempt to have been updated.\n")
+        PrintLog("PRAW has had an attempt to have been updated.")
     if ('praw-oauth2util' not in packages):
-        print("You do not have the necessarry prerequisite PRAW-Oauth2Util. Will install in two seconds")
+        PrintLog("You do not have the necessarry prerequisite PRAW-Oauth2Util. Will install in two seconds")
         time.sleep(2)
         pip.main(['install', 'praw-oauth2util'])
+        PrintLog("PRAW-Oauth2Util has been installed.")
     else:
-        print("You have the necessarry prerequisite PRAW.")
-        print("However, it may not be the latest version. An update will be attempted in two seconds.")
-        print("If you recieve an output that the requirement is already up-to-date,\nignore it and let the script continue as normal.")
+        PrintLog("You have the necessarry prerequisite PRAW-Oauth2Util.\nHowever, it may not be the latest version.\nAn update will be attempted in two seconds.\nIf you recieve an output that the requirement is already up-to-date,\nignore it and let the script continue as normal.")
         time.sleep(2)
         pip.main(['install', 'praw-oauth2util', '--upgrade'])
+        PrintLog("PRAW-Oauth2Util has had an attempt to have been updated.")
 else:
-    print("Checking if prerequisite packages are installed...")
-    print("All prerequisite packages have been installed previously!")
+    LogFile.close()
+    MdLogFile.close()
+    LogFile = open("ChangeFlairBot.log", "a")
+    MdLogFile = open("ChangeFlairBot.log.md", "a")
+    PrintLog("Prerequisite packages will now be checked.\nIf a package is not installed, it will be.\nAn attempt will be made to update the package to the latest version.\nChecking if prerequisite packages are installed...\nAll prerequisite packages have been installed previously!")
 
 # IMPORT INSTALLED / UPDATED PACKAGES
 
