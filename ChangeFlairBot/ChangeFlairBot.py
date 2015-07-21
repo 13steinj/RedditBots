@@ -24,15 +24,6 @@ NEW_FLAIR_CSS = ""
 ONLY_TEST = True
 
 # ### END USER CONFIGURATION ### #
-try:
-# A file containing infos for testing.
-    import bot
-    USERAGENT = bot.useragent
-    SUBREDDIT = bot.subreddit
-except ImportError:
-    print("importboterror")
-    pass
-
 def setting_variables():
     r = praw.Reddit(USERAGENT)
     o = OAuth2Util.OAuth2Util(r)
