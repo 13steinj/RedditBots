@@ -8,11 +8,21 @@ import sys, os, time, platform
 import pip
 
 if (sys.version_info < (3, 0, 0)):
-    print("You are using Python ", platform.python_version())
-    print("This version is incompatible with the script.")
-    print("You must use Python 3.0.0 or higher.\nPython 3.4.3 is recommended.")
-    print("The script shall now close.")
-    sys.exit()
+    if (sys.version_info < (2, 6, 0)):
+        try:
+                print "You are using Python ", platform.python_version()
+                print "This version is incompatible with the script."
+                print "You must use Python 3.0.0 or higher.\nPython 3.4.3 is recommended."
+                print "The script shall now close."
+                sys.exit()
+        except SyntaxError:
+            pass
+    else:
+        print("You are using Python ", platform.python_version())
+        print("This version is incompatible with the script.")
+        print("You must use Python 3.0.0 or higher.\nPython 3.4.3 is recommended.")
+        print("The script shall now close.")
+        sys.exit()
 elif (sys.version_info >= (3, 0, 0)):
     print("You are using Python ", platform.python_version())
     print("This version is compatible with the script.")
@@ -27,6 +37,8 @@ elif (sys.version_info >= (3, 0, 0)):
 # MOVE TO SCRIPT DIRECTORY AND CREATE / APPEND TO LOGFILE
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+print("Logging started. You will be able to view an indepth log either when the script finishes, or when")
 LogFile = open("ChangeFlairBot.log", "a")
 MdLogFile = open("ChangeFlairBot.log.md", "a")
 
@@ -66,13 +78,15 @@ if ((("PRAW has been installed." not in LogFile.read()) or ("PRAW has been insta
 else:
     print("Checking if prerequisite packages are installed...")
     print("All prerequisite packages have been installed previously!")
+
+# IMPORT INSTALLED / UPDATED PACKAGES
+
 import praw, OAuth2Util
 
 # ### USER CONFIGURATION ### #
 
 # The old and new flair text and css class. Set to None to use a wildcard.
 # Setting the flairs via search will only work if OLD_FLAIR_TEXT is not set to None.
-OLD_FLAIR_TEXT = ""
 OLD_FLAIR_CSS = ""
 NEW_FLAIR_TEXT = ""
 NEW_FLAIR_CSS = ""
@@ -95,17 +109,19 @@ def setting_variables():
         oauth_file.write("# Token\ntoken=None\nrefresh_token=none\n")
         oauth_file.close()
         print("Done.")
-    is_this_a_test: input('Would you like to do a test run instead of actually changing anything\(Y/n\)?\n')
-        if (is_this_a_test == "Y" or is_this_a_test == "yes" or is_this_a_test == "y" or is_this_a_test == "YES")
-            ONLY_TEST = True
-            print("This will be a test run. Nothing will be changed.\n")
-        elif (is_this_a_test == "N" or is_this_a_test == "no" or is_this_a_test == "n" or is_this_a_test == "NO"):
-            ONLY_TEST = False
-            print("This will NOT be a test run. Flairs will be changed.\n")
-        else:
-            print("You did not input an accepted value.\nThe script will now terminate in 2 seconds.\nPlease input a valid value next time.")
-            time.sleep(2)
-            sys.exit()
+    yesnoprompt = True
+        while yesnoprompt:
+            is_this_a_test: input('Would you like to do a test run instead of actually changing anything\(Y/n\)?\n')
+            if (is_this_a_test == "Y" or is_this_a_test == "yes" or is_this_a_test == "y" or is_this_a_test == "YES")
+                ONLY_TEST = True
+                yesnoprompt = False
+                print("This will be a test run. Nothing will be changed.")
+            elif (is_this_a_test == "N" or is_this_a_test == "no" or is_this_a_test == "n" or is_this_a_test == "NO"):
+                ONLY_TEST = False
+                yesnoprompt = False
+                print("This will NOT be a test run. Flairs will be changed.")
+            else:
+                print("You did not input an accepted value.\nPlease input 'Y' for \"yes\" or 'n' for \"no\" (or 'yes' and 'no', respectively) next time.")
     USERAGENT = input('Please input your useragent and then hit the \'Enter\' or \'return\' key on your keyboard.\nIt should contain a short description of what it does and yout username. E.g. RSS Bot by /u/SmBe19:\n')
     print("Your user agent is now", USERAGENT)
     SUBREDDIT = input('Please input the subreddit that you are working on and then hit the \'Enter\' or \'return\' key on your keyboard:\n')
