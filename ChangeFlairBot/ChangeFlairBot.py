@@ -1,18 +1,76 @@
 """
 A bot to change the flair of all posts in a subreddit
-Written by /u/SmBe19, small modification by /u/13steinj to use search pages
+Written by /u/SmBe19
+Modified by /u/13steinj to be an all in one script and search for flairs with a better method
 """
 
-import praw
-import OAuth2Util
+import sys, os, time, platform
+import pip
+
+# MOVE TO SCRIPT DIRECTORY
+
+if (sys.version_info < (3, 0)):
+    print "You are using Python ", platform.python_version(), "."
+    print "This version is incompatible with the script."
+    print "You must use Python 3.0.0 or higher.\nPython 3.4.3 is recommended."
+    print "The script shall now close."
+    sys.exit()
+elif (sys.version_info >= (3, 0, 0)):
+    print("You are using Python ", platform.python_version(),".")
+    print("This version is compatible with the script.")
+    if (sys.version_info != (3, 4, 3)):
+        print("Python 3.4.3 is recommended.")
+        print("If you would like exit the script now to change the python version, do so now.\nOtherwise please wait 5 seconds.")
+    else:
+        pass
+    print "The script shall now start."
+else:
+    print("This is impossible. Closing.")
+    sys.exit()
+
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
+# ### PRELIMINARY PREREQUISITE CHECK AND INSTALLATION ### #
+
+packages = sorted(["%s" % (i.key) for i in pip.get_installed_distributions()])
+package_versions = sorted(["%s==%s" % (i.key, i.version) for i in pip.get_installed_distributions()])
+LogFile = open("ChangeFlairBot.log", "a")
+MdLogFile = open("ChangeFlairBot.log.md", "a")
+
+if ((("PRAW has been installed." not in LogFile.read()) or ("PRAW has been installed." not in MdLogFile.read())) or (("PRAW has had an attempt to have been updated." not in LogFile.read()) or ("PRAW has had an attempt to have been updated." not in MdLogFile.read()))):
+    print("Checking if prerequisite packages are installed...")
+    if ('praw' not in packages):
+        print("You do not have the necessarry prerequisite PRAW. Will install in two seconds")
+        time.sleep(2)
+        pip.main(['install', 'praw'])
+        print("PRAW has been installed.")
+        LogFile.write("PRAW has been installed.\n")
+        MdLogFile.write("PRAW has been installed.\n")
+    else:
+        print("You have the necessarry prerequisite PRAW.")
+        print("However, it may not be the latest version. An update will be attempted in two seconds.")
+        print("If you recieve an output that the requirement is already up-to-date,\nignore it and let the script continue as normal.")
+        time.sleep(2)
+        pip.main(['install', 'praw', '--upgrade'])
+        print("PRAW has had an attempt to have been updated.")
+        LogFile.write("PRAW has had an attempt to have been updated.\n")
+        MdLogFile.write("PRAW has had an attempt to have been updated.\n")
+    if ('praw-oauth2util' not in packages):
+        print("You do not have the necessarry prerequisite PRAW-Oauth2Util. Will install in two seconds")
+        time.sleep(2)
+        pip.main(['install', 'praw-oauth2util'])
+    else:
+        print("You have the necessarry prerequisite PRAW.")
+        print("However, it may not be the latest version. An update will be attempted in two seconds.")
+        print("If you recieve an output that the requirement is already up-to-date,\nignore it and let the script continue as normal.")
+        time.sleep(2)
+        pip.main(['install', 'praw-oauth2util', '--upgrade'])
+else:
+    print("Checking if prerequisite packages are installed...")
+    print("All prerequisite packages have been installed previously!")
+import praw, OAuth2Util
 
 # ### USER CONFIGURATION ### #
-
-# The bot's useragent. It should contain a short description of what it does and your username. e.g. "RSS Bot by /u/SmBe19"
-USERAGENT = ""
-
-# The name of the subreddit to operate on. The bot has to be a mod there.
-SUBREDDIT = ""
 
 # The old and new flair text and css class. Set to None to use a wildcard.
 # Setting the flairs via search will only work if OLD_FLAIR_TEXT is not set to None.
@@ -21,10 +79,42 @@ OLD_FLAIR_CSS = ""
 NEW_FLAIR_TEXT = ""
 NEW_FLAIR_CSS = ""
 # Set to True if you only want to see how many posts would be altered. No flairs will be altered with this set to True.
-ONLY_TEST = True
+
 
 # ### END USER CONFIGURATION ### #
 def setting_variables():
+    if (os.path.exists("oauth.txt") and os.path.isfile("oauth.txt")):
+        pass
+    else:
+        print("You do not have the necessary oauth.txt file.\n This is a one time set-up process.\n")
+        app_key = input("Input your app id and then hit the \'Enter\' or \'return\' key on your keyboard:\n")
+        app_secret = input("Input your app secret and then hit the \'Enter\' or \'return\' key on your keyboard.\nRemember to never share your app secret:\n")
+        print("Writing to file \"oauth.txt\", please wait.")
+        oauth_file = open("oauth.txt", "w")
+        oauth_file.write("# This is yout oauth.txt\n\n# Config:\nscope=modflair\nrefreshable=True\n\n# App Info\n")
+        oauth_file.write("app_key=", app_key, "\n")
+        oauth_file.write("app_secret=", app_secret, "\n\n")
+        oauth_file.write("# Token\ntoken=None\nrefresh_token=none\n")
+        oauth_file.close()
+        print("Done.")
+    is_this_a_test: input('Would you like to do a test run instead of actually changing anything\(Y/n\)?\n')
+        if (is_this_a_test == "Y" or is_this_a_test == "yes" or is_this_a_test == "y" or is_this_a_test == "YES")
+            ONLY_TEST = True
+            print("This will be a test run. Nothing will be changed.\n")
+        elif (is_this_a_test == "N" or is_this_a_test == "no" or is_this_a_test == "n" or is_this_a_test == "NO"):
+            ONLY_TEST = False
+            print("This will NOT be a test run. Flairs will be changed.\n")
+        else:
+            print("You did not input an accepted value.\nThe script will now terminate in 2 seconds.\nPlease input a valid value next time.")
+            time.sleep(2)
+            sys.exit()
+    USERAGENT = input('Please input your useragent and then hit the \'Enter\' or \'return\' key on your keyboard.\nIt should contain a short description of what it does and yout username. E.g. RSS Bot by /u/SmBe19:\n')
+    print("Your user agent is now", USERAGENT)
+    SUBREDDIT = input('Please input the subreddit that you are working on and then hit the \'Enter\' or \'return\' key on your keyboard:\n')
+    print("The subreddit you have selected is /r/{0}".format(SUBREDDIT))
+    print("Now you must set the text and css class of the flair you want to change, as well as the text and class you want it to become.\nInput \"*\" to use a wildcard\n")
+    OLD_FLAIR_TEXT = input('Please input the text of the flair that you want to change and then hit the \'Enter\' or \'return\' key on your keyboard:\nWARNING: This script will not use the search method if this is a wildcard\n')
+        
     r = praw.Reddit(USERAGENT)
     o = OAuth2Util.OAuth2Util(r)
     sub = r.get_subreddit(SUBREDDIT)
@@ -138,10 +228,6 @@ def run_full_script():
     run_hot_flair_setting()
 # FULL EXECUTION
 if __name__ == "__main__":
-    if not USERAGENT:
-        print("Missing Useragent")
-    elif not SUBREDDIT:
-        print("Missing Subreddit")
     elif not OLD_FLAIR_CSS and not OLD_FLAIR_TEXT:
         print("Old flair not set")
     else:
