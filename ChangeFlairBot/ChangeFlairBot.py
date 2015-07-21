@@ -7,35 +7,33 @@ Modified by /u/13steinj to be an all in one script and search for flairs with a 
 import sys, os, time, platform
 import pip
 
-# MOVE TO SCRIPT DIRECTORY
-
-if (sys.version_info < (3, 0)):
-    print "You are using Python ", platform.python_version(), "."
-    print "This version is incompatible with the script."
-    print "You must use Python 3.0.0 or higher.\nPython 3.4.3 is recommended."
-    print "The script shall now close."
+if (sys.version_info < (3, 0, 0)):
+    print("You are using Python ", platform.python_version())
+    print("This version is incompatible with the script.")
+    print("You must use Python 3.0.0 or higher.\nPython 3.4.3 is recommended.")
+    print("The script shall now close.")
     sys.exit()
 elif (sys.version_info >= (3, 0, 0)):
-    print("You are using Python ", platform.python_version(),".")
+    print("You are using Python ", platform.python_version())
     print("This version is compatible with the script.")
     if (sys.version_info != (3, 4, 3)):
         print("Python 3.4.3 is recommended.")
-        print("If you would like exit the script now to change the python version, do so now.\nOtherwise please wait 5 seconds.")
+        print("If you would like exit the script now to change the python version you are using, do so now.\nOtherwise please wait 2 seconds.")
+        time.sleep(2)
     else:
         pass
-    print "The script shall now start."
-else:
-    print("This is impossible. Closing.")
-    sys.exit()
+    print("The script shall now start.")
+
+# MOVE TO SCRIPT DIRECTORY AND CREATE / APPEND TO LOGFILE
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
+LogFile = open("ChangeFlairBot.log", "a")
+MdLogFile = open("ChangeFlairBot.log.md", "a")
 
 # ### PRELIMINARY PREREQUISITE CHECK AND INSTALLATION ### #
 
 packages = sorted(["%s" % (i.key) for i in pip.get_installed_distributions()])
 package_versions = sorted(["%s==%s" % (i.key, i.version) for i in pip.get_installed_distributions()])
-LogFile = open("ChangeFlairBot.log", "a")
-MdLogFile = open("ChangeFlairBot.log.md", "a")
 
 if ((("PRAW has been installed." not in LogFile.read()) or ("PRAW has been installed." not in MdLogFile.read())) or (("PRAW has had an attempt to have been updated." not in LogFile.read()) or ("PRAW has had an attempt to have been updated." not in MdLogFile.read()))):
     print("Checking if prerequisite packages are installed...")
