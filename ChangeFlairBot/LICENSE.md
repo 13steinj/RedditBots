@@ -1,8 +1,11 @@
 #LICENSE
 ChangeFlairBot by [Jonathan M. Stein](https://github.com/13steinj) is licensed under a [Creative Commons Attribution-NonCommercial 4.0 International License](http://creativecommons.org/licenses/by-nc/4.0/); extensive info located [here](https://creativecommons.org/licenses/by-nc/4.0/legalcode).  
 Based on [ChangeFlairBot](https://github.com/SmBe19/RedditBots/tree/master/ChangeFlairBot) by [Benjamin Schmid](https://github.com/SmBe19/RedditBots/tree/master/ChangeFlairBot) licensed under an [MIT License](http://opensource.org/licenses/mit-license.php).  
-The [notices of Benjamin Schmid's license and copyright](#the-mit-license-mit) are located under the notices that comprise the [CC BY-NC 4.0 license in this document](#creative-commons-attribution-noncommercial-40-international-public-license-).
+Permissions beyond the scope of this license may be available given upon reaching the developer at [a message to his desired platform](https://www.reddit.com/message/compose?to=13steinj&subject=I%27d%20like%20to%20request%20an%20additional%20right%20for%20your%20project%20%22ChangeFlairBot%22&message=I%27d%20like%20to%20request%20the%20right%20to%20%3Cinsert%20right%20here%3E.%20The%20reason%20I%27d%20like%20this%20right%20is%20beacuse%20%3Cinsert%20reason%20here%3E).
+The [notices of Benjamin Schmid's license and copyright](#the-mit-license-mit) are located under the notices that comprise the [CC BY-NC 4.0 license and copyright in this document](#creative-commons-attribution-noncommercial-40-international-public-license-).
 ## <a name="#creative-commons-attribution-noncommercial-40-international-public-license-" id="#creative-commons-attribution-noncommercial-40-international-public-license-"></a>Creative Commons Attribution-NonCommercial 4.0 International Public License <a href="http://creativecommons.org/licenses/by-nc/4.0/" style="right:auto; position:absolute;"><img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png"></a>
+
+Copyright (c) 2015 Jonathan M. Stein  
 
 By exercising the Licensed Rights (defined below), You accept and agree to be bound by the terms and conditions of this Creative Commons Attribution-NonCommercial 4.0 International Public License ("Public License"). To the extent this Public License may be interpreted as a contract, You are granted the Licensed Rights in consideration of Your acceptance of these terms and conditions, and the Licensor grants You such rights in consideration of benefits the Licensor receives from making the Licensed Material available under these terms and conditions.
 
@@ -55,17 +58,17 @@ Your exercise of the Licensed Rights is expressly made subject to the following 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v.  a URI or hyperlink to the Licensed Material to the extent reasonably practicable;  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B.  indicate if You modified the Licensed Material and retain an indication of any previous modifications; and  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C.  indicate the Licensed Material is licensed under this Public License, and include the text of, or the URI or hyperlink to, this Public License.  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.  You may satisfy the conditions in Section [3(1)(1)](#s3a1) in any reasonable manner based on the medium, means, and context in which You Share the Licensed Material. For example, it may be reasonable to satisfy the conditions by providing a URI or hyperlink to a resource that includes the required information.  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.  If requested by the Licensor, You must remove any of the information required by Section [3(1)(1)(1)](#s3a1A) to the extent reasonably practicable.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.  You may satisfy the conditions in Section [3(a)(1)](#s3a1) in any reasonable manner based on the medium, means, and context in which You Share the Licensed Material. For example, it may be reasonable to satisfy the conditions by providing a URI or hyperlink to a resource that includes the required information.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.  If requested by the Licensor, You must remove any of the information required by Section [3(a)(1)(A)](#s3a1A) to the extent reasonably practicable.  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.  If You Share Adapted Material You produce, the Adapter's License You apply must not prevent recipients of the Adapted Material from complying with this Public License.  
 
 <a name="#s4" id="#s4"></a>**Section 4 – Sui Generis Database Rights.**
 
 Where the Licensed Rights include Sui Generis Database Rights that apply to Your use of the Licensed Material:  
 
-&nbsp;&nbsp;&nbsp;&nbsp;a.  for the avoidance of doubt, Section [2(1)(1)](#s2a1) grants You the right to extract, reuse, reproduce, and Share all or a substantial portion of the contents of the database for NonCommercial purposes only;  
+&nbsp;&nbsp;&nbsp;&nbsp;a.  for the avoidance of doubt, Section [2(a)(1)](#s2a1) grants You the right to extract, reuse, reproduce, and Share all or a substantial portion of the contents of the database for NonCommercial purposes only;  
 &nbsp;&nbsp;&nbsp;&nbsp;b.  if You include all or a substantial portion of the database contents in a database in which You have Sui Generis Database Rights, then the database in which You have Sui Generis Database Rights (but not its individual contents) is Adapted Material; and  
-&nbsp;&nbsp;&nbsp;&nbsp;c.  You must comply with the conditions in Section [3(1)](#s3a) if You Share all or a substantial portion of the contents of the database.  
+&nbsp;&nbsp;&nbsp;&nbsp;c.  You must comply with the conditions in Section [3(a)](#s3a) if You Share all or a substantial portion of the contents of the database.  
 
 For the avoidance of doubt, this Section [4](#s4) supplements and does not replace Your obligations under this Public License where the Licensed Rights include other Copyright and Similar Rights.
 
@@ -78,10 +81,10 @@ For the avoidance of doubt, this Section [4](#s4) supplements and does not repla
 <a name="#s6" id="#s6"></a>**Section 6 – Term and Termination.**
 
 &nbsp;&nbsp;&nbsp;&nbsp;a.  <a name="#s6a" id="#s6a"></a>This Public License applies for the term of the Copyright and Similar Rights licensed here. However, if You fail to comply with this Public License, then Your rights under this Public License terminate automatically.   
-&nbsp;&nbsp;&nbsp;&nbsp;b.  <a name="#s6b" id="#s6b"></a>Where Your right to use the Licensed Material has terminated under Section [6(1)](#s6a), it reinstates:  
+&nbsp;&nbsp;&nbsp;&nbsp;b.  <a name="#s6b" id="#s6b"></a>Where Your right to use the Licensed Material has terminated under Section [6(a)](#s6a), it reinstates:  
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.  automatically as of the date the violation is cured, provided it is cured within 30 days of Your discovery of the violation; or  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.  upon express reinstatement by the Licensor.For the avoidance of doubt, this Section [6(2)](#s6b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License.  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.  upon express reinstatement by the Licensor.For the avoidance of doubt, this Section [6(b)](#s6b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License.  
 &nbsp;&nbsp;&nbsp;&nbsp;c.  For the avoidance of doubt, the Licensor may also offer the Licensed Material under separate terms or conditions or stop distributing the Licensed Material at any time; however, doing so will not terminate this Public License.  
 &nbsp;&nbsp;&nbsp;&nbsp;d.  Sections [1](#s1), [5](#s5), [6](#s6), [7](#s7), and [8](#s8) survive termination of this Public License.  
 
