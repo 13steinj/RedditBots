@@ -11,31 +11,108 @@ import pip
 VERSION = "1.0.0"
 ONLINEVERSION = urllib.request.urlopen("https://raw.githubusercontent.com/13steinj/RedditBots/master/ChangeFlairBot/VERSION").read().decode("utf-8")
 
-def first_down(downfile)
-def backup_file(FileUpdate):
-    if (os.path.exists(FileUpdate) and os.path.isfile(FileUpdate)):
-        shutil.copy2(FileUpdate, "ChangeFlairBotBak/{0}/{1}".format(VERSION, FileUpdate))
+def first_down(file_name):
+    if (not os.path.exists(file_name) or not os.path.isfile(file_name)):
+        url = "https://raw.githubusercontent.com/13steinj/RedditBots/master/ChangeFlairBot/{0}".format(file_name)
+        u = urllib.request.urlopen(url)
+        f = open(file_name, 'wb')
+        meta = u.info()
+        file_size = int(meta.getheaders("Content-Length")[0])
+        print("Downloading: {0} Bytes: {1}".format(file_name, file_size))
+        file_size_dl = 0
+        block_sz = 8192
+        while True:
+            buffer = u.read(block_sz)
+            if not buffer:
+                break
+            file_size_dl += len(buffer)
+            f.write(buffer)
+            status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
+            status = status + chr(8)*(len(status)+1)
+            print(status)
+        f.close()
+    else:
+        pass
 
-def script_version_update():
-    if (os.path.exists("oauth.txt") and os.path.isfile("oauth.txt")):
+def update_file(file_name):
+    if (os.path.exists(file_name) and os.path.isfile(file_name)):
+        print("Backing up {0}...".format(file_name))
+        shutil.copy2(file_name, "ChangeFlairBotBak/{0}/{1}".format(VERSION, file_name))
+        print("{0} has been backed up!".format(file_name))
+    else:
+        pass
+    url = "https://raw.githubusercontent.com/13steinj/RedditBots/master/ChangeFlairBot/{0}".format(file_name)
+    u = urllib.request.urlopen(url)
+    f = open(file_name, 'wb')
+    meta = u.info()
+    file_size = int(meta.getheaders("Content-Length")[0])
+    print("Updating: {0} Bytes: {1}".format(file_name, file_size))
+    file_size_dl = 0
+    block_sz = 8192
+    while True:
+        buffer = u.read(block_sz)
+        if not buffer:
+            break
+        file_size_dl += len(buffer)
+        f.write(buffer)
+        status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
+        status = status + chr(8)*(len(status)+1)
+        print(status)
+    f.close()
+
+def backup_logs(first_log, second_log):
+    if (os.path.exists(first_log) and os.path.isfile(first_log)):
+        print("Backing up {0}...".format(first_log))
+        shutil.copy2(file_name, "ChangeFlairBotBak/{0}/{1}".format(VERSION, first_log))
+        print("{0} has been backed up!".format(first_log))
+        print("Truncating: {0}...".format(first_log))
+        truncate_log = open(first_log, "w")
+        truncate_log.truncate()
+        truncate_log.close()
+    else:
+        pass
+    if (os.path.exists(second_log) and os.path.isfile(second_log)):
+        print("Backing up {0}...".format(second_log))
+        shutil.copy2(file_name, "ChangeFlairBotBak/{0}/{1}".format(VERSION, second_log))
+        print("{0} has been backed up!".format(second_log))
+        print("Truncating: {0}...".format(second_log))
+        truncate_log = open(second_log, "w")
+        truncate_log.truncate()
+        truncate_log.close()
+    else:
+        pass
+
+def preliminary_check():
+    first_down("LICENSE")
+    first_down("LICENSE.md")
+    first_down("README")
+    first_down("README.md")
+    first_down("VERSION")
     if VERSION != ONLINEVERSION:
         print("There is an update.")
-        print("All files that need to be truncated will be backed up to /ChangeFlairBotBak/{0}/".format(VERSION))
-        print("Do not use these backups.\nOnly keep them for reading previous logs, or contacting the dev with bugreports.\nThe dev can be contacted via reddit pm to http://www.reddit.com/u/13steinj")
+        print("All files that need to be truncated and/or updated will be backed up to /ChangeFlairBotBak/{0}/".format(VERSION))
+        print("Do not use these backups.
+        print("Only keep them for reading previous logs, or contacting the dev with bugreports.")
+        print("The dev can be contacted via reddit pm to http://www.reddit.com/u/13steinj")
         os.chdir("ChangeFlairBotBak")
         if not os.path.exists(VERSION):
             os.makedirs(VERSION)
         os.chdir(os.pardir)
-        backup_file("ChangeFlairBot.log")
-        backup_file("ChangeFlairBot.log.md")
-        backup_file("LICENSE")
-        backup_file("LICENSE.md")
-        backup_file("README")
-        backup_file("README.md")
-        backup_file("ChangeFlairBot.py")
-        backup_file("script.py")
-
-def version_check():
+        backup_logs("ChangeFlairBot.log", "ChangeFlairBot.log.md")
+        update_file("LICENSE")
+        update_file("LICENSE.md")
+        update_file("README")
+        update_file("README.md")
+        update_file("VERSION")
+        update_file("script.py")
+    else:
+        pass
+    open_readme = input(Would you like to view the README?(Y/n)\n)
+    yes = ["y", "yes", "ye"]
+    no = ["n", "no"]
+    yesno = 
+    while ((open_readme.lower() not in yes) or ((open_readme.lower() not in yes)
+def python_check():
     if (sys.version_info < (3, 0, 0)):
         pythonversion = "You are using Python " + platform.python_version()
         print(pythonversion)
@@ -49,8 +126,9 @@ def version_check():
         print("This version is compatible with the script.")
         if (sys.version_info < (3, 4, 3)):
             print("Python 3.4.3 or higher is recommended.")
-            print("If you would like exit the script now to change the python version you are using, do so now.\nOtherwise please wait 2 seconds.")
-            time.sleep(2)
+            change_python = input("Would like to exit the script now and change the python version you are using?(Y/n)\n")
+            yes = ["y", "yes", "ye"]
+            no = ["n", "no"]
         else:
             pass
         print("The script shall now start.")
