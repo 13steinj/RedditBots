@@ -2,33 +2,29 @@ import sys
 import os
 import time
 import platform
-import urllib2
+import urllib
 import pip
 import shutil
+import urllib.request
 
-def downloadfile(nameoffile):
-    url = nameoffile
-    
-    file_name = url.split('/')[-1]
-    u = urllib2.urlopen(url)
+def maindownload(file_name):
+    url = "https://raw.githubusercontent.com/13steinj/RedditBots/master/ChangeFlairBot/{0}".format(file_name)
+    u = urllib.request.urlopen(url)
     f = open(file_name, 'wb')
     meta = u.info()
     file_size = int(meta.getheaders("Content-Length")[0])
-    print "Downloading: %s Bytes: %s" % (file_name, file_size)
-    
+    print("Downloading: {0} {1} Bytes: {2}".format(file_name, "(the main script)", file_size))
     file_size_dl = 0
     block_sz = 8192
     while True:
         buffer = u.read(block_sz)
         if not buffer:
             break
-    
         file_size_dl += len(buffer)
         f.write(buffer)
         status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
         status = status + chr(8)*(len(status)+1)
-        print status,
-    
+        print(status)
     f.close()
 if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
@@ -37,7 +33,7 @@ if __name__ == "__main__":
     try:
         import script
     except ImportError:
-        downloadfile("https://raw.githubusercontent.com/13steinj/RedditBots/master/ChangeFlairBot/script.py")
+        maindownload("script.py")
         import script
     script.script_version_update()
     reload(script)
