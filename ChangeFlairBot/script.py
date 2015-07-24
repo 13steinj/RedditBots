@@ -4,13 +4,21 @@ Written by /u/SmBe19
 Modified by /u/13steinj to be an all in one script and search for flairs with a better method
 """
 
-import sys, os, time, platform, urllib2, shutil
+import sys, os, time, platform
+import urllib, urllib.request, shutil
 import pip
 
+VERSION = "1.0.0"
+ONLINEVERSION = urllib.request.urlopen("https://raw.githubusercontent.com/13steinj/RedditBots/master/ChangeFlairBot/VERSION").read().decode("utf-8")
+
+def first_down(downfile)
+def backup_file(FileUpdate):
+    if (os.path.exists(FileUpdate) and os.path.isfile(FileUpdate)):
+        shutil.copy2(FileUpdate, "ChangeFlairBotBak/{0}/{1}".format(VERSION, FileUpdate))
+
 def script_version_update():
-    onlineversion = urllib.urlopen("https://raw.githubusercontent.com/13steinj/RedditBots/master/ChangeFlairBot/VERSION").read()
-    VERSION = "1.0.0"
-    if VERSION != onlineversion:
+    if (os.path.exists("oauth.txt") and os.path.isfile("oauth.txt")):
+    if VERSION != ONLINEVERSION:
         print("There is an update.")
         print("All files that need to be truncated will be backed up to /ChangeFlairBotBak/{0}/".format(VERSION))
         print("Do not use these backups.\nOnly keep them for reading previous logs, or contacting the dev with bugreports.\nThe dev can be contacted via reddit pm to http://www.reddit.com/u/13steinj")
@@ -18,17 +26,15 @@ def script_version_update():
         if not os.path.exists(VERSION):
             os.makedirs(VERSION)
         os.chdir(os.pardir)
-        UPDATEFILES = 5
-        while UPDATEFILES = 5:
-            if (os.path.exists(FileUpdate) and os.path.isfile(FileUpdate)):
-                shutil.copy2(FileUpdate, "ChangeFlairBotBak/{0}/{1}".format(VERSION, FileUpdate))
-            open(FileUpdate, "w").write(urllib.urlopen("https://raw.githubusercontent.com/13steinj/RedditBots/master/ChangeFlairBot/{0}".format(FileUpdate)).read())
-            UPDATEFILES -= 1
-        while UPDATEFILES = 4:
-            if (os.path.exists(FileUpdate) and os.path.isfile(FileUpdate)):
-                shutil.copy2(FileUpdate, "ChangeFlairBotBak/{0}/{1}".format(VERSION, FileUpdate))
-            open(FileUpdate, "w").write(urllib.urlopen("https://raw.githubusercontent.com/13steinj/RedditBots/master/ChangeFlairBot/{0}".format(FileUpdate)).read())
-            UPDATEFILES -= 1
+        backup_file("ChangeFlairBot.log")
+        backup_file("ChangeFlairBot.log.md")
+        backup_file("LICENSE")
+        backup_file("LICENSE.md")
+        backup_file("README")
+        backup_file("README.md")
+        backup_file("ChangeFlairBot.py")
+        backup_file("script.py")
+
 def version_check():
     if (sys.version_info < (3, 0, 0)):
         pythonversion = "You are using Python " + platform.python_version()
